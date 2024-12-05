@@ -1,4 +1,5 @@
 # The Wizards Quest AI
+THE WIZARD'S QUEST: THE STOLEN SPELLBOOK é um jogo 3D roguelike baseado em waves onde o jogador controla Zyphoros, um feiticeiro em uma missão para recuperar seu livro de feitiços roubado e derrotar o Rei Esqueleto em batalhas épicas.
 ## Descrição Geral Do Jogo
 O jogador controla o feiticeiro Zyphoros que viu o seu livro de feitiços ser roubado pelo Rei Esqueleto (Skeleton King) que pretende usá-lo para destruir o planeta. Zyphoros terá de usar as suas habilidades e ataques para derrotar, ao longo de 5 níveis, o Rei Esqueleto e o seu exército para resgatar o seu livro.
 
@@ -9,7 +10,7 @@ O objetivo em cada nível é derrotar vários números de waves e um mini boss q
 ## Atividade do jogador
 O jogador pode deslocar-se livremente pelo mapa, andando ou através de um gancho que poderá ser usado apenas em certos objetos do nível. 
 
-Os inimigos nascerão em sítios predefinidos do mapa irão se deslocar em direção ao jogador para o atacar.
+Os inimigos surgirão em sítios predefinidos do mapa irão se deslocar em direção ao jogador para o atacar.
 
 Existem 2 tipos de inimigos: os que atacam a curta distância, apenas por contacto com o player, e os que atacam a longa distância.
 
@@ -41,16 +42,16 @@ A interface apresentará a seguinte informação:
 ### Máquina de Estados Finitos (FSM) do Boss
 Uma Máquina de Estados Finitos (FSM) é uma estrutura computacional usada para modelar comportamentos com base em estados discretos e suas transições. No contexto de jogos, FSMs são amplamente utilizadas para gerir a lógica de personagens, como inimigos ou NPCs, garantindo que eles ajam de maneira previsível e controlada.
 
-No nosso jogo, o BossController.cs utiliza uma FSM para alternar entre três estados principais: Patrulha (Patrolling), Perseguição (Chasing) e Ataque (Attacking). Cada estado define um comportamento específico do boss, dependendo das ações do jogador e do ambiente.
+No jogo, o comportamento do boss é gerido por uma Máquina de Estados Finitos (FSM). Este sistema alterna entre três estados principais: Patrulha (Patrolling), Perseguição (Chasing) e Ataque (Attacking), com transições dinâmicas baseadas nas ações do jogador.
 
 ### Estados e Transições
-#### Estado: Patrulha (Patrolling)
+#### Estado: Patrulha (**Patrolling**)
 Comportamento: O boss percorre os pontos de patrulha predefinidos (waypoints) no mapa, movendo-se para o próximo ponto assim que chega ao atual.
 
 Transição para Chasing: Se o jogador estiver dentro do alcance de detecção (detectionRange).
 
 Lógica no codigo:
-```
+```csharp
 void HandlePatrolling(float playerDistance)
 {
     if (!nv.pathPending && nv.remainingDistance < 0.5f)
@@ -65,7 +66,7 @@ void HandlePatrolling(float playerDistance)
 }
 ```
 
-#### Estado: Perseguição (Chasing)
+#### Estado: Perseguição (**Chasing**)
 Comportamento: O boss abandona a patrulha e segue em direção ao jogador. Ele ajusta constantemente seu destino com base na posição do jogador.
 
 Transição para Patrolling: Se o jogador sair do alcance de perseguição (loseSightRange).
@@ -73,7 +74,7 @@ Transição para Patrolling: Se o jogador sair do alcance de perseguição (lose
 Transição para Attacking: Se o jogador estiver dentro da distância de ataque (stoppingDistance).
 
 Lógica no Código:
-```
+```csharp
 void HandleChasing(float playerDistance)
 {
     if (playerDistance > loseSightRange)
@@ -91,13 +92,13 @@ void HandleChasing(float playerDistance)
 }
 ```
 
-#### Estado: Ataque (Attacking)
+#### Estado: Ataque (**Attacking**)
 Comportamento: O boss ataca o jogador enquanto está dentro do alcance de ataque.
 
 Transição para Chasing: Se o jogador se afastar do alcance de ataque.
 
 Lógica no Código:
-```
+```csharp
 void HandleAttacking()
 {
     Debug.Log("Boss está atacando o jogador!");
@@ -113,7 +114,7 @@ void HandleAttacking()
 
 #### Transições de Estado
 As transições entre os estados são gerenciadas pela função ChangeState, que regista a mudança de estado e executa as ações correspondentes ao novo estado:
-```
+```csharp
 void ChangeState(BossState newState)
 {
     currentState = newState;
@@ -142,7 +143,7 @@ Descrição:
 + Além disso, é aqui que a distância entre o boss e o jogador é calculada, determinando possíveis mudanças de estado.
 
 Código:
-```
+```csharp
 void Update()
 {
     if (isDead) return;
