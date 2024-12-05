@@ -46,8 +46,10 @@ No nosso jogo, o BossController utiliza uma FSM para alternar entre três estado
 ### Estados e Transições
 1. Estado: Patrulha (Patrolling)
 Comportamento: O boss percorre os pontos de patrulha predefinidos (waypoints) no mapa, movendo-se para o próximo ponto assim que chega ao atual.
+
 Transição para Chasing: Se o jogador estiver dentro do alcance de detecção (detectionRange).
 
+Lógica no codigo:
 ```
 void HandlePatrolling(float playerDistance)
 {
@@ -59,6 +61,31 @@ void HandlePatrolling(float playerDistance)
     if (playerDistance < detectionRange)
     {
         ChangeState(BossState.Chasing);
+    }
+}
+```
+
+2. Estado: Perseguição (Chasing)
+Comportamento: O boss abandona a patrulha e segue em direção ao jogador. Ele ajusta constantemente seu destino com base na posição do jogador.
+Transição para Patrolling: Se o jogador sair do alcance de perseguição (loseSightRange).
+
+Transição para Attacking: Se o jogador estiver dentro da distância de ataque (stoppingDistance).
+
+Lógica no Código
+```
+void HandleChasing(float playerDistance)
+{
+    if (playerDistance > loseSightRange)
+    {
+        ChangeState(BossState.Patrolling);
+    }
+    else if (playerDistance <= nv.stoppingDistance)
+    {
+        ChangeState(BossState.Attacking);
+    }
+    else
+    {
+        nv.SetDestination(player.position);
     }
 }
 ```
