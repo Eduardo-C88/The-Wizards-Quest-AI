@@ -23,3 +23,10 @@ Existem 2 tipos de inimigos: os que atacam a curta distância, apenas por contac
 | Botão Esquerdo do Rato     | Ataque básico                 |
 | Botão Direito do Rato      | Usar gancho (Swing)           |
 | 1;2;3;4                    | Usar habilidades              |
+
+## Interface
+A interface apresentará a seguinte informação:
+  •	A vida do player;
+  •	Hotbar com as habilidades;
+  •	Mira;
+  •	Número de inimigos vivos por wave.
