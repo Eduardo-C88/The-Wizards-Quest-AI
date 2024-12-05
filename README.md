@@ -171,3 +171,44 @@ void Update()
     }
 }
 ```
+### Árvore de Comportamentos (*Behavior Tree*)
+Este projeto implementa uma Behavior Tree (Árvore de Comportamento) para controlar a lógica de decisões de um inimigo do tipo boss em um jogo. A Behavior Tree organiza e prioriza as ações do boss, como atacar com habilidades específicas, avaliar a posição do jogador, verificar linhas de visão e respeitar os tempos de recarga das habilidades.
+
+A Behavior Tree é uma estrutura hierárquica muito utilizada em jogos para gerenciar comportamentos complexos de NPCs (Non-Playable Characters). Diferentemente de máquinas de estado (FSMs), ela é mais modular e escalável, permitindo a adição de novos comportamentos com menos risco de causar conflitos, mas ainda sendo possivel utilizar as duas em simultâneo.
+
+#### Estrutura da Árvore de Comportamentos
+A Behavior Tree do boss foi implementada usando uma combinação de Selector Nodes (nós que priorizam a primeira condição verdadeira) e Sequence Nodes (nós que executam uma lista de condições em sequência).
+
+##### Árvore Resumida
+Root (Selector)
+├── Skill 1 (Sequence)
+│   ├── CheckPlayerInRange (dentro de um range específico)
+│   ├── CheckCooldown (tempo de recarga disponível)
+│   ├── CheckLoS (linha de visão válida)
+│   └── UseBossSkill1 (executa a Skill 1)
+└── Skill 2 (Sequence)
+    ├── CheckPlayerInRange (dentro do range de Skill 2)
+    ├── CheckCooldown (tempo de recarga disponível)
+    ├── CheckLoS (linha de visão válida)
+    └── UseBossSkill2 (executa a Skill 2)
+
+##### Explicação dos Componentes
+**1. Selector (Nodo Raiz)**
+O Selector avalia os comportamentos de forma hierárquica. Ele tenta os nós filhos em sequência e escolhe o primeiro que tiver sucesso. Isso garante que o boss sempre execute a habilidade mais adequada às condições atuais.
+
+**2. Sequence (Sequências para Skill 1 e Skill 2)**
+Cada habilidade do boss é representada por uma sequência. A sequência avalia:
++ Se o jogador está dentro do alcance.
++ Se a habilidade está fora do tempo de recarga.
++ Se o jogador está visível (linha de visão).
++ Se todas as condições acima forem cumpridas, a habilidade é usada.
+
+**3. Nós Condicionais**
+Estes nós avaliam condições específicas:
++ CheckPlayerInRange: Verifica se o jogador está dentro da faixa de distância (máxima e mínima, se aplicável).
++ CheckCooldown: Avalia se a habilidade está fora do tempo de recarga.
++ CheckLoS: Verifica se há uma linha de visão entre o boss e o jogador.
+
+**4. Nós de Ação**
++ UseBossSkill1: Executa a habilidade 1 (um ataque direcionado).
++ UseBossSkill3: Executa a habilidade 2 (um ataque em área).
