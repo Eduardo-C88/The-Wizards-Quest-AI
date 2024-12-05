@@ -67,11 +67,12 @@ void HandlePatrolling(float playerDistance)
 
 #### Estado: Perseguição (Chasing)
 Comportamento: O boss abandona a patrulha e segue em direção ao jogador. Ele ajusta constantemente seu destino com base na posição do jogador.
+
 Transição para Patrolling: Se o jogador sair do alcance de perseguição (loseSightRange).
 
 Transição para Attacking: Se o jogador estiver dentro da distância de ataque (stoppingDistance).
 
-Lógica no Código
+Lógica no Código:
 ```
 void HandleChasing(float playerDistance)
 {
@@ -86,6 +87,84 @@ void HandleChasing(float playerDistance)
     else
     {
         nv.SetDestination(player.position);
+    }
+}
+```
+
+#### Estado: Ataque (Attacking)
+Comportamento: O boss ataca o jogador enquanto está dentro do alcance de ataque.
+
+Transição para Chasing: Se o jogador se afastar do alcance de ataque.
+
+Lógica no Código:
+```
+void HandleAttacking()
+{
+    Debug.Log("Boss está atacando o jogador!");
+
+    // Transição de volta para Chasing caso o jogador fuja
+    float playerDistance = Vector3.Distance(player.position, transform.position);
+    if (playerDistance > nv.stoppingDistance)
+    {
+        ChangeState(BossState.Chasing);
+    }
+}
+```
+
+#### Transições de Estado
+As transições entre os estados são gerenciadas pela função ChangeState, que regista a mudança de estado e executa as ações correspondentes ao novo estado:
+```
+void ChangeState(BossState newState)
+{
+    currentState = newState;
+    Debug.Log($"Boss mudou para o estado: {newState}");
+
+    switch (newState)
+    {
+        case BossState.Patrolling:
+            GoToNextPatrolPoint();
+            break;
+        case BossState.Chasing:
+            break;
+        case BossState.Attacking:
+            break;
+    }
+}
+```
+#### Lógica Central: Função Update
+A função Update é onde a lógica da máquina de estados é avaliada a cada quadro. Um switch é usado para determinar o comportamento do boss com base no estado atual.
++Descrição:
+++A cada ciclo de Update, a FSM verifica o estado atual do boss e executa a função correspondente:
++++HandlePatrolling() para Patrolling.
++++HandleChasing() para Chasing.
++++HandleAttacking() para Attacking.
+++Além disso, é aqui que a distância entre o boss e o jogador é calculada, determinando possíveis mudanças de estado.
++Código:
+```
+void Update()
+{
+    if (isDead) return;
+
+    float playerDistance = Vector3.Distance(player.position, transform.position);
+
+    // Verifica se o boss deve entrar em "rage"
+    if (!isInRage && health <= maxHealth * 0.3f)
+    {
+        EnterRageMode();
+    }
+
+    // Atualiza o comportamento com base no estado atual
+    switch (currentState)
+    {
+        case BossState.Patrolling:
+            HandlePatrolling(playerDistance);
+            break;
+        case BossState.Chasing:
+            HandleChasing(playerDistance);
+            break;
+        case BossState.Attacking:
+            HandleAttacking();
+            break;
     }
 }
 ```
