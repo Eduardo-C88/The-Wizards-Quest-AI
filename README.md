@@ -114,7 +114,7 @@ void HandleAttacking()
 
 #### Transições de Estado
 As transições entre os estados são gerenciadas pela função ChangeState, que regista a mudança de estado e executa as ações correspondentes ao novo estado:
-```
+```csharp
 void ChangeState(BossState newState)
 {
     currentState = newState;
@@ -143,7 +143,7 @@ Descrição:
 + Além disso, é aqui que a distância entre o boss e o jogador é calculada, determinando possíveis mudanças de estado.
 
 Código:
-```
+```csharp
 void Update()
 {
     if (isDead) return;
