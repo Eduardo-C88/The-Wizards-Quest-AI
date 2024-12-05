@@ -177,9 +177,12 @@ Este projeto implementa uma Behavior Tree (Árvore de Comportamento) para contro
 A Behavior Tree é uma estrutura hierárquica muito utilizada em jogos para gerenciar comportamentos complexos de NPCs (Non-Playable Characters). Diferentemente de máquinas de estado (FSMs), ela é mais modular e escalável, permitindo a adição de novos comportamentos com menos risco de causar conflitos, mas ainda sendo possivel utilizar as duas em simultâneo.
 
 #### Estrutura da Árvore de Comportamentos
-A Behavior Tree do boss foi implementada usando uma combinação de Selector Nodes (nós que priorizam a primeira condição verdadeira) e Sequence Nodes (nós que executam uma lista de condições em sequência).
+A Behavior Tree do boss foi implementada usando uma combinação de:
++ Selector Nodes (nós que priorizam a primeira condição verdadeira) 
++ Sequence Nodes (nós que executam uma lista de condições em sequência)
 
 ##### Árvore Resumida
+```plaintext
 Root (Selector)
 ├── Skill 1 (Sequence)
 │   ├── CheckPlayerInRange (dentro de um range específico)
@@ -191,24 +194,336 @@ Root (Selector)
     ├── CheckCooldown (tempo de recarga disponível)
     ├── CheckLoS (linha de visão válida)
     └── UseBossSkill2 (executa a Skill 2)
+```
 
 ##### Explicação dos Componentes
-**1. Selector (Nodo Raiz)**
+
+**Node.cs**
+``` csharp
+namespace BehaviorTree
+{
+	public enum NodeState
+	{
+		Success,
+		Failure,
+		Running
+	}
+	
+	public class Node
+	{
+		protected NodeState state;
+		
+		public Node parent;
+		protected List<Node> children = new List<Node>();
+		
+		private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
+		
+		public Node()
+		{
+			parent = null;
+		}
+		
+		public Node(List<Node> children)
+		{
+			foreach (Node child in children)
+			{
+				_Attach(child);
+			}
+		}
+		
+		private void _Attach(Node node)
+		{
+			node.parent = this;
+			children.Add(node);
+		}
+		
+		public virtual NodeState Evaluate()
+		{
+			return NodeState.Failure;
+		}
+		
+		public void SetData(string key, object value)
+		{
+			_dataContext[key] = value;
+		}
+		
+		public object GetData(string key)
+		{
+			object value = null;
+			if (_dataContext.TryGetValue(key, out value))
+			{
+				return value;
+			}
+
+			Node node = parent;
+			while(node != null)
+			{
+				value = node.GetData(key);
+				if (value != null)
+				{
+					return value;
+				}
+				node = node.parent;
+			}
+			return null;
+		}
+		
+		public bool ClearData(string key)
+		{
+			if(_dataContext.ContainsKey(key))
+			{
+				_dataContext.Remove(key);
+				return true;
+			}
+
+			Node node = parent;
+			while(node != null)
+			{
+				bool cleared = node.ClearData(key);
+				if (cleared)
+				{
+					return true;
+				}
+				node = node.parent;
+			}
+			return false;
+		}
+	}
+	
+}
+```
+
+*1. Selector (Nodo Raiz)*
 O Selector avalia os comportamentos de forma hierárquica. Ele tenta os nós filhos em sequência e escolhe o primeiro que tiver sucesso. Isso garante que o boss sempre execute a habilidade mais adequada às condições atuais.
 
-**2. Sequence (Sequências para Skill 1 e Skill 2)**
+``` cs
+namespace BehaviorTree
+{
+	public class Selector : Node
+	{
+		public Selector(List<Node> children) : base(children) { }
+		public Selector() : base() { }
+		
+		public override NodeState Evaluate()
+		{
+			foreach(Node node in children)
+			{
+				switch(node.Evaluate())
+				{
+					case NodeState.Failure:
+						continue;
+					case NodeState.Success:
+						state = NodeState.Success;
+						return state;
+					case NodeState.Running:
+						state = NodeState.Running;
+						return state;
+					default:
+						continue;	
+				}
+			}
+			
+			state = NodeState.Failure;
+			return state;
+		}
+	}
+}
+```
+
+*2. Sequence (Sequências para Skill 1 e Skill 2)*
 Cada habilidade do boss é representada por uma sequência. A sequência avalia:
 + Se o jogador está dentro do alcance.
 + Se a habilidade está fora do tempo de recarga.
 + Se o jogador está visível (linha de visão).
 + Se todas as condições acima forem cumpridas, a habilidade é usada.
 
-**3. Nós Condicionais**
+``` cs
+namespace BehaviorTree
+{
+	public class Sequence : Node
+	{
+		public Sequence(List<Node> children) : base(children) { }
+		public Sequence() : base() { }
+		
+		public override NodeState Evaluate()
+		{
+			bool anyChildRunning = false;
+			foreach(Node node in children)
+			{
+				switch(node.Evaluate())
+				{
+					case NodeState.Failure:
+						state = NodeState.Failure;
+						return state;
+					case NodeState.Success:
+						continue;
+					case NodeState.Running:
+						anyChildRunning = true;
+						continue;
+					default:
+						state = NodeState.Success;
+						return state;	
+				}
+			}
+			
+			state = anyChildRunning ? NodeState.Running : NodeState.Success;
+			return state;
+		}
+	}
+}
+```
+
+*3. Nós Condicionais*
 Estes nós avaliam condições específicas:
 + CheckPlayerInRange: Verifica se o jogador está dentro da faixa de distância (máxima e mínima, se aplicável).
-+ CheckCooldown: Avalia se a habilidade está fora do tempo de recarga.
-+ CheckLoS: Verifica se há uma linha de visão entre o boss e o jogador.
+```cs
+public class CheckPlayerInRange : Node
+{
+	private UnityEngine.Transform bossTransform;
+	private UnityEngine.Transform playerTransform;
+	private float maxRange;
+	private float minRange;
 
-**4. Nós de Ação**
+	public CheckPlayerInRange(UnityEngine.Transform bossTransform, UnityEngine.Transform playerTransform, float maxRange, float minRange)
+	{
+		this.bossTransform = bossTransform;
+		this.playerTransform = playerTransform;
+		this.maxRange = maxRange;
+		this.minRange = minRange;
+	}
+
+	public override NodeState Evaluate()
+	{
+		float distance = Vector3.Distance(bossTransform.position, playerTransform.position);
+		Debug.Log("Distance: " + distance);
+
+		// Check if the player is within the min and max range
+		if (distance < minRange || distance > maxRange)
+		{
+			state = NodeState.Failure; // Fail the node if player is too close or too far
+			return state;
+		}
+
+		state = NodeState.Success; // Success if the player is within the valid range
+		return state;
+	}
+}
+```
++ CheckCooldown: Avalia se a habilidade está fora do tempo de recarga.
+```cs
+public class CheckCooldown : Node{
+	private BossSpell1 bossSpell1;
+	private BossSpell3 bossSpell3;
+	
+	public CheckCooldown(BossSpell1 bossSpell1){
+		this.bossSpell1 = bossSpell1;
+	}
+	public CheckCooldown(BossSpell3 bossSpell3){
+		this.bossSpell3 = bossSpell3;
+	}
+	
+	public override NodeState Evaluate(){
+		// Check cooldown for BossSpell1 if it's not null
+        if (bossSpell1 != null)
+        {
+            if (!bossSpell1.isReady) // If spell1 is not ready
+            {
+                state = NodeState.Failure; // Fail the node
+                return state;
+            }
+        }
+
+        // Check cooldown for BossSpell3 if it's not null
+        if (bossSpell3 != null)
+        {
+            if (!bossSpell3.isReady) // If spell3 is not ready
+            {
+                state = NodeState.Failure; // Fail the node
+                return state;
+            }
+        }
+
+        // If neither spell is on cooldown, succeed the node
+        state = NodeState.Success;
+        return state;
+	}
+}
+```
++ CheckLoS: Verifica se há uma linha de visão entre o boss e o jogador.
+```cs
+public class CheckLoS : Node
+{
+    private Transform enemyTransform;  // Transform of the entity (the boss)
+    private Transform playerTransform; // Reference to the player's transform
+    private float maxRange;            // Maximum range for checking (already handled by the tree)
+
+    public CheckLoS(Transform enemyTransform, Transform playerTransform, float maxRange)
+    {
+        this.enemyTransform = enemyTransform;
+        this.playerTransform = playerTransform;
+        this.maxRange = maxRange;
+    }
+
+    public override NodeState Evaluate()
+    {
+        // If player reference is missing, return failure (can't check LoS)
+        if (playerTransform == null) 
+        {
+            state = NodeState.Failure;
+            return state;
+        }
+
+        // Cast a ray from the enemy to the player
+        Ray ray = new Ray(enemyTransform.position, playerTransform.position - enemyTransform.position);
+        RaycastHit hit;
+
+        // Perform the raycast
+        if (Physics.Raycast(ray, out hit, maxRange))
+        {
+            // Check if the ray hits the player directly
+            if (hit.collider.CompareTag("Player"))
+            {
+                state = NodeState.Success;  // Line of sight is clear
+            }
+            else
+            {
+                state = NodeState.Failure;  // Hit something else (wall, obstacle)
+            }
+        }
+        else
+        {
+            state = NodeState.Failure;  // Ray did not hit anything (something blocking LoS)
+        }
+
+        return state;
+    }
+}
+```
+
+*4. Nós de Ação*
 + UseBossSkill1: Executa a habilidade 1 (um ataque direcionado).
-+ UseBossSkill3: Executa a habilidade 2 (um ataque em área).
+```cs
+public class UseBossSkill1 : Node
+{
+	public override NodeState Evaluate()
+	{
+		BossBT.bossSpell1.TriggerSpell();
+		
+		state = NodeState.Success;
+		return state;
+	}
+}
+```
++ UseBossSkill2: Executa a habilidade 2 (um ataque em área).
+```cs
+public class UseBossSkill3 : Node
+{
+	public override NodeState Evaluate()
+	{
+		BossBT.bossSpell3.TriggerSpell();
+		
+		state = NodeState.Success;
+		return state;
+	}
+}
+```
