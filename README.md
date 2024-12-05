@@ -51,7 +51,7 @@ Comportamento: O boss percorre os pontos de patrulha predefinidos (waypoints) no
 Transição para Chasing: Se o jogador estiver dentro do alcance de detecção (detectionRange).
 
 Lógica no codigo:
-```
+```csharp
 void HandlePatrolling(float playerDistance)
 {
     if (!nv.pathPending && nv.remainingDistance < 0.5f)
@@ -74,7 +74,7 @@ Transição para Patrolling: Se o jogador sair do alcance de perseguição (lose
 Transição para Attacking: Se o jogador estiver dentro da distância de ataque (stoppingDistance).
 
 Lógica no Código:
-```
+```csharp
 void HandleChasing(float playerDistance)
 {
     if (playerDistance > loseSightRange)
@@ -98,7 +98,7 @@ Comportamento: O boss ataca o jogador enquanto está dentro do alcance de ataque
 Transição para Chasing: Se o jogador se afastar do alcance de ataque.
 
 Lógica no Código:
-```
+```csharp
 void HandleAttacking()
 {
     Debug.Log("Boss está atacando o jogador!");
