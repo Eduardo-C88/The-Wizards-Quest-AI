@@ -133,12 +133,13 @@ void ChangeState(BossState newState)
 ```
 #### Lógica Central: Função Update
 A função Update é onde a lógica da máquina de estados é avaliada a cada quadro. Um switch é usado para determinar o comportamento do boss com base no estado atual.
+
 Descrição:
-+A cada ciclo de Update, a FSM verifica o estado atual do boss e executa a função correspondente:
- +HandlePatrolling() para Patrolling.
- +HandleChasing() para Chasing.
- +HandleAttacking() para Attacking.
-+Além disso, é aqui que a distância entre o boss e o jogador é calculada, determinando possíveis mudanças de estado.
++ A cada ciclo de Update, a FSM verifica o estado atual do boss e executa a função correspondente:
+    + HandlePatrolling() para Patrolling.
+    + HandleChasing() para Chasing.
+    + HandleAttacking() para Attacking.
++ Além disso, é aqui que a distância entre o boss e o jogador é calculada, determinando possíveis mudanças de estado.
 
 Código:
 ```
