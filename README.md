@@ -333,6 +333,7 @@ public class CheckPlayerInRange : Node
 ###### **4. Nós de Ação**
 
 | Nome          | Função                          |
+|---------------|---------------------------------|
 | UseBossSkill1 | Executa a Habilidade 1 do boss. |
 | UseBossSkill3 | Executa a Habilidade 3 do boss. |
 
