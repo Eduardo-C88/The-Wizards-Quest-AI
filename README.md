@@ -190,10 +190,10 @@ Root (Selector)
 │   ├── CheckLoS (linha de visão válida)
 │   └── UseBossSkill1 (executa a Skill 1)
 └── Skill 2 (Sequence)
-    ├── CheckPlayerInRange (dentro do range de Skill 2)
+    ├── CheckPlayerInRange (dentro do range de Skill 3)
     ├── CheckCooldown (tempo de recarga disponível)
     ├── CheckLoS (linha de visão válida)
-    └── UseBossSkill2 (executa a Skill 2)
+    └── UseBossSkill3 (executa a Skill 3)
 ```
 
 ##### Explicação dos Componentes
@@ -293,7 +293,8 @@ namespace BehaviorTree
 }
 ```
 
-*1. Selector (Nodo Raiz)*
+**1. Selector (Nodo Raiz)**
+
 O Selector avalia os comportamentos de forma hierárquica. Ele tenta os nós filhos em sequência e escolhe o primeiro que tiver sucesso. Isso garante que o boss sempre execute a habilidade mais adequada às condições atuais.
 
 ``` cs
@@ -330,7 +331,8 @@ namespace BehaviorTree
 }
 ```
 
-*2. Sequence (Sequências para Skill 1 e Skill 2)*
+**2. Sequence (Sequências para Skill 1 e Skill 2)**
+
 Cada habilidade do boss é representada por uma sequência. A sequência avalia:
 + Se o jogador está dentro do alcance.
 + Se a habilidade está fora do tempo de recarga.
@@ -373,7 +375,8 @@ namespace BehaviorTree
 }
 ```
 
-*3. Nós Condicionais*
+**3. Nós Condicionais**
+
 Estes nós avaliam condições específicas:
 + CheckPlayerInRange: Verifica se o jogador está dentro da faixa de distância (máxima e mínima, se aplicável).
 ```cs
@@ -500,7 +503,8 @@ public class CheckLoS : Node
 }
 ```
 
-*4. Nós de Ação*
+**4. Nós de Ação**
+
 + UseBossSkill1: Executa a habilidade 1 (um ataque direcionado).
 ```cs
 public class UseBossSkill1 : Node
