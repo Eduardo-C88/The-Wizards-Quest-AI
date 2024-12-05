@@ -203,7 +203,7 @@ Root (Selector)
 | Skill 3 (Sequence) | Sequência de condições para executar a Habilidade 3 (ataque em área).      |
 
 ##### Explicação dos Nós
-**1. Selector (Nodo Raiz)**
+###### **1. Selector (Nodo Raiz)**
 
 O Selector avalia os comportamentos de forma hierárquica. Ele tenta os nós filhos em sequência e escolhe o primeiro que tiver sucesso. Isso garante que o boss sempre execute a habilidade mais adequada às condições atuais.
 
@@ -242,7 +242,7 @@ namespace BehaviorTree
 }
 ```
 
-**2. Sequence (Sequências para Skill 1 e Skill 3)**
+###### **2. Sequence (Sequências para Skill 1 e Skill 3)**
 
 Cada habilidade do boss é representada por uma sequência. A sequência avalia:
 1. Se o jogador está dentro do alcance.
@@ -287,7 +287,7 @@ namespace BehaviorTree
 }
 ```
 
-**3. Nós Condicionais**
+###### **3. Nós Condicionais**
 
 | Nome               | Função                                                                                    |
 |--------------------|-------------------------------------------------------------------------------------------|
@@ -330,7 +330,7 @@ public class CheckPlayerInRange : Node
 }
 ```
 
-**4. Nós de Ação**
+###### **4. Nós de Ação**
 
 | Nome          | Função                          |
 | UseBossSkill1 | Executa a Habilidade 1 do boss. |
