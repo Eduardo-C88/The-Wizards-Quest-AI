@@ -30,3 +30,10 @@ A interface apresentará a seguinte informação:
 + Hotbar com as habilidades;
 + Mira;
 + Número de inimigos vivos por wave.
+
+## Habilidades: 
++ Fireball: Atira uma bola de fogo que mata instantaneamente um inimigo;
++ Lightning: Atira um raio que atinge em cadeia 3 inimigos;
++ Ice shockwave: Gera uma shockwave que ataca e abranda os inimigos em todas as direções;
++ Water Beam: Gera um feixe horizontal que causa dano em quem estiver dentro da zona.
+
