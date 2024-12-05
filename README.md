@@ -6,7 +6,7 @@ O jogo é um jogo 3D roguelike wave based low poly.
 
 O objetivo em cada nível é derrotar vários números de waves e um mini boss que aparece no fim de cada nível. Após derrotar todas as waves, um portal irá se abrir para que o jogador avance para o próximo nível até chegar ao nível final, onde Zyphoros terá de enfrentar o Rei Esqueleto.
 
-##Atividade do jogador
+## Atividade do jogador
 O jogador pode deslocar-se livremente pelo mapa, andando ou através de um gancho que poderá ser usado apenas em certos objetos do nível. 
 
 Os inimigos nascerão em sítios predefinidos do mapa irão se deslocar em direção ao jogador para o atacar.
