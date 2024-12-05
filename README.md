@@ -45,7 +45,7 @@ Uma Máquina de Estados Finitos (FSM) é uma estrutura computacional usada para 
 No jogo, o comportamento do boss é gerido por uma Máquina de Estados Finitos (FSM). Este sistema alterna entre três estados principais: Patrulha (Patrolling), Perseguição (Chasing) e Ataque (Attacking), com transições dinâmicas baseadas nas ações do jogador.
 
 #### Estados e Transições
-##### Estado: Patrulha (*Patrolling*)
+#### Estado: Patrulha (*Patrolling*)
 Comportamento: O boss percorre os pontos de patrulha predefinidos (waypoints) no mapa, movendo-se para o próximo ponto assim que chega ao atual.
 
 Transição para Chasing: Se o jogador estiver dentro do alcance de detecção (detectionRange).
