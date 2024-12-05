@@ -26,7 +26,7 @@ Existem 2 tipos de inimigos: os que atacam a curta distância, apenas por contac
 
 ## Interface
 A interface apresentará a seguinte informação:
-  •	A vida do player;
-  •	Hotbar com as habilidades;
-  •	Mira;
-  •	Número de inimigos vivos por wave.
++ A vida do player;
++ Hotbar com as habilidades;
++ Mira;
++ Número de inimigos vivos por wave.
