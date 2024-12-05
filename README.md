@@ -41,7 +41,7 @@ A interface apresentará a seguinte informação:
 ### Máquina de Estados Finitos (FSM) do Boss
 Uma Máquina de Estados Finitos (FSM) é uma estrutura computacional usada para modelar comportamentos com base em estados discretos e suas transições. No contexto de jogos, FSMs são amplamente utilizadas para gerir a lógica de personagens, como inimigos ou NPCs, garantindo que eles ajam de maneira previsível e controlada.
 
-No nosso jogo, o BossController utiliza uma FSM para alternar entre três estados principais: Patrulha (Patrolling), Perseguição (Chasing) e Ataque (Attacking). Cada estado define um comportamento específico do boss, dependendo das ações do jogador e do ambiente.
+No nosso jogo, o BossController.cs utiliza uma FSM para alternar entre três estados principais: Patrulha (Patrolling), Perseguição (Chasing) e Ataque (Attacking). Cada estado define um comportamento específico do boss, dependendo das ações do jogador e do ambiente.
 
 ### Estados e Transições
 #### Estado: Patrulha (Patrolling)
