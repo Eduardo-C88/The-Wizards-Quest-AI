@@ -474,6 +474,6 @@ behaviors:
     summary_freq: 1000  # Frequency at which summaries/logging are performed
 ```
 ## Trabalho de:
-+25969 Eduardo Costa
-+25981 Filipe Araújo
-+25982 Pedro Rodrigues
++ 25969 Eduardo Costa
++ 25981 Filipe Araújo
++ 25982 Pedro Rodrigues
