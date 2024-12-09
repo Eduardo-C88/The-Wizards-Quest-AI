@@ -360,7 +360,7 @@ O aprendizado ocorre por meio de Reforço:
 - Ações: Com base nas observações, ele decide o que fazer.
 - Recompensas: A ação tomada gera uma recompensa ou penalidade.
 - Treinamento: O modelo ajusta seus parâmetros para maximizar a recompensa acumulada ao longo do tempo.
--No código fornecido, vemos um exemplo de agente treinado para perseguir um jogador enquanto evita penalizações
+- No código fornecido, vemos um exemplo de agente treinado para perseguir um jogador enquanto evita penalizações
 
 #### Observações
 
