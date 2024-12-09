@@ -65,6 +65,15 @@ void HandlePatrolling(float playerDistance)
     }
 }
 ```
+```csharp
+void GoToNextPatrolPoint()
+{
+    if (patrolPoints.Length == 0) return;
+
+    nv.SetDestination(patrolPoints[currentPatrolIndex].position);
+    currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+}
+```
 
 #### Estado: Perseguição (*Chasing*)
 Comportamento: O boss abandona a patrulha e segue em direção ao jogador. Ele ajusta constantemente seu destino com base na posição do jogador.
