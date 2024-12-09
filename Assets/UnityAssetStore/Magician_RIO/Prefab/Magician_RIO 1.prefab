@@ -309,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 6601761197583536967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 52.1, y: 35.15, z: 44.36}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -388,6 +388,9 @@ MonoBehaviour:
   jumpForce: 12
   jumpCooldown: 0.25
   airDrag: 0.5
+  isJumping: 0
+  animTrack: 0
+  anim: {fileID: 0}
   jumpKey: 32
   groundCheck: {fileID: 5271476803555336364}
   groundDistance: 0.4
@@ -428,6 +431,8 @@ MonoBehaviour:
   predictionSphereCastRadius: 2
   predictionPoint: {fileID: 0}
   swingKey: 324
+  anim: {fileID: 0}
+  animTrack: 0
 --- !u!114 &1844186326155775630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +583,8 @@ MonoBehaviour:
   projectileSpeed: 10
   fireRate: 1.5
   projectileLifetime: 5
+  animTrack: 0
+  anim: {fileID: 0}
 --- !u!114 &404836455837502461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,6 +625,8 @@ MonoBehaviour:
   maxRange: 120
   projectileSpeed: 7
   cooldownDuration: 3
+  anim: {fileID: 0}
+  animTrack: 0
 --- !u!95 &6242242552451269325
 Animator:
   serializedVersion: 5

@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 	
 	[Header("Skills active")]
 	public bool isSpellActive = false;
+	
+	public GameOverScreen gameOverScreen;
 
 	void Start()
 	{
@@ -29,11 +31,10 @@ public class Player : MonoBehaviour
 		if (health <= 0)
 		{
 			health = 0;  // Clamp health to 0
-			Debug.Log("Player died");
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
+			
+			GameOver();
 			// Recarregar a cena atual
-        	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+			//SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 			//Destroy(gameObject);
 		}
 
@@ -92,6 +93,15 @@ public class Player : MonoBehaviour
 				rb.AddForce(knockbackForce, ForceMode.Impulse);
 			}
 		}
+	}
+	
+	private void GameOver()
+	{
+		Debug.Log("Game Over!");
+		gameOverScreen.Setup();
+		Time.timeScale = 0f;
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 	}
 }
 

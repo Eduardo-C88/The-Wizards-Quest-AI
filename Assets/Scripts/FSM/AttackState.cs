@@ -40,7 +40,7 @@ public class AttackState : IState
             lastAttackTime = Time.time;
         }
 
-        if (enemy.BasicEnemy.Health <= 50)
+        if (enemy.BasicEnemy.health <= 50)
         {
             Debug.Log("Health low, transitioning to FleeState.");
             enemy.StateMachine.ChangeState(new FleeState(enemy));

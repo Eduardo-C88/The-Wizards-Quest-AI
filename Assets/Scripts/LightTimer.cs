@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LightIntensityToggle : MonoBehaviour
+public class LightTimer : MonoBehaviour
 {
     // Reference to the Light component
     public Light targetLight;
@@ -9,6 +9,7 @@ public class LightIntensityToggle : MonoBehaviour
     // Duration to keep the light on (in seconds)
     public float lightDuration = 10f;
 
+    public int lightIntensity = 5;
     // Internal timer to track the light duration
     private float timer;
     private bool isLightOn;
@@ -27,9 +28,10 @@ public class LightIntensityToggle : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
+                Debug.Log("Light Reduced");
                 // Turn off the light and reset the timer
-                targetLight.intensity = 0;
-                isLightOn = false;
+                targetLight.intensity = lightIntensity;
+                
             }
         }
     }
@@ -40,9 +42,9 @@ public class LightIntensityToggle : MonoBehaviour
         if (collision.gameObject == targetPrefab && !isLightOn)
         {
             // Turn the light on and set the timer
-            targetLight.intensity = 8;
-            timer = lightDuration;
-            isLightOn = true;
+            targetLight.intensity = 80;
+            Destroy(targetPrefab);
+            
         }
     }
 }

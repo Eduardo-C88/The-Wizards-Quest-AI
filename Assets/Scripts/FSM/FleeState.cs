@@ -34,7 +34,7 @@ public class FleeState : IState
         if (Time.time >= fleeStartTime + fleeDuration)
         {
             // If health has recovered, return to normal behavior
-            if (enemy.BasicEnemy.Health > 50)
+            if (enemy.BasicEnemy.health > 50)
             {
                 enemy.StateMachine.ChangeState(new RunState(enemy));
             }

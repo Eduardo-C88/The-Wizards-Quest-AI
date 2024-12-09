@@ -98,6 +98,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1007033514327902351}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4899add9b637c8440b3ec5556a3fb25a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4270161383346458470}
   m_SourcePrefab: {fileID: 100100000, guid: 4899add9b637c8440b3ec5556a3fb25a, type: 3}
 --- !u!1 &6688229120525518201 stripped
 GameObject:
@@ -140,6 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   damage: 50
+  healthText: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 4228e17bc177bd346bede87a96aea223, type: 3}
 --- !u!54 &394752810443328850
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -188,3 +194,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &4270161383346458470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688229120525518201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 718a609bcbabf11469a7425fe5645268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleCries:
+  - {fileID: 8300000, guid: 91b33ed5eac8d5e45ab78231e0ea90ae, type: 3}
+  - {fileID: 8300000, guid: 5ccd07f2dfe374143b0ce2ade5cc363e, type: 3}
+  minInterval: 15
+  maxInterval: 30

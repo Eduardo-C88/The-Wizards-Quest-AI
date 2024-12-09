@@ -44,7 +44,7 @@ public class EnemyAnimationController : MonoBehaviour
 		anim.SetFloat("Player_Distance", distance);
 
 		// Enemy is dead
-		if (Enemy.Health <= 0)
+		if (Enemy.health <= 0)
 		{
 			anim.SetBool("Death", true);
 			

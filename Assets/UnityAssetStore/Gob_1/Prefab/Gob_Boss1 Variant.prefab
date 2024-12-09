@@ -207,6 +207,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4445130562688071417, guid: 3e9d468f74248f749b47073dde568087,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4783619333575940999, guid: 3e9d468f74248f749b47073dde568087,
         type: 3}
       propertyPath: m_Size.z
@@ -226,6 +231,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsKinematic
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242342843526142687, guid: 3e9d468f74248f749b47073dde568087,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07722468
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242342843526142687, guid: 3e9d468f74248f749b47073dde568087,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07722468
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242342843526142687, guid: 3e9d468f74248f749b47073dde568087,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07722468
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242342843526142687, guid: 3e9d468f74248f749b47073dde568087,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.043263
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242342843526142687, guid: 3e9d468f74248f749b47073dde568087,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.94
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6775669436202623022, guid: 3e9d468f74248f749b47073dde568087, type: 3}
@@ -262,6 +292,18 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 2350035928526924012}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2102415266867682837 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4445130562688071417, guid: 3e9d468f74248f749b47073dde568087,
+    type: 3}
+  m_PrefabInstance: {fileID: 2350035928526924012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3735518324705590941 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1389988470286014065, guid: 3e9d468f74248f749b47073dde568087,
@@ -285,6 +327,8 @@ MonoBehaviour:
   damage: 50
   knockbackForce: 20
   skillActive: 0
+  healthText: {fileID: 2102415266867682837}
+  deathSound: {fileID: 8300000, guid: 4228e17bc177bd346bede87a96aea223, type: 3}
 --- !u!114 &-7749362005884786923
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class BossController : MonoBehaviour
 	[SerializeField] private float detectionRange = 15f;
 	[SerializeField] private float loseSightRange = 20f;
 	[SerializeField] private Transform[] patrolPoints;
+	[SerializeField] private TextMeshPro healthText;
 	private Transform player;
 	private int currentPatrolIndex = 0;
 
@@ -20,6 +23,9 @@ public class BossController : MonoBehaviour
 	public float rageDamageMultiplier = 2f;
 	private bool isDead = false;
 	private bool isInRage = false;
+	
+	public AudioClip deathSound;
+	private AudioSource audioSource;
 
 	private PortalManager portalManager;
 
@@ -32,7 +38,9 @@ public class BossController : MonoBehaviour
 		nv = GetComponent<NavMeshAgent>();
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		portalManager = FindObjectOfType<PortalManager>();
-    	maxHealth = health; // Armazena o valor inicial da vida.
+		audioSource = GetComponent<AudioSource>();
+		
+		maxHealth = health; // Armazena o valor inicial da vida.
 
 		currentState = BossState.Patrolling;
 
@@ -46,6 +54,8 @@ public class BossController : MonoBehaviour
 	void Update()
 	{
 		if (isDead) return;
+		
+		HealthTextUpdate();
 
 		float playerDistance = Vector3.Distance(player.position, transform.position);
 
@@ -155,7 +165,13 @@ public class BossController : MonoBehaviour
 			isDead = true;
 			Debug.Log("Boss derrotado!");
 			portalManager.SpawnPortal();
-			Destroy(gameObject);
+			Destroy(gameObject, 1f);
+			
+			// Toca o som de morte
+			if (deathSound != null)
+			{
+				audioSource.PlayOneShot(deathSound);
+			}
 		}
 	}
 
@@ -191,6 +207,18 @@ public class BossController : MonoBehaviour
 
 		nv.speed = originalSpeed;
 		Debug.Log("Efeito de slow terminado. Velocidade normalizada.");
+	}
+	
+	private void HealthTextUpdate()
+	{
+		if(healthText != null)
+		{
+			healthText.text = health + "/" + maxHealth;
+			
+			Vector3 direction = healthText.transform.position - Camera.main.transform.position;
+			Quaternion rotation = Quaternion.LookRotation(direction);
+			healthText.transform.rotation = rotation;
+		}
 	}
 }
 

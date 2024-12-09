@@ -31,7 +31,7 @@ public class RunState : IState
         }
 
         // If health drops below a certain threshold, transition to FleeState
-        if (enemy.BasicEnemy.Health <= 50)
+        if (enemy.BasicEnemy.health <= 50)
         {
             Debug.Log("Health low, transitioning to FleeState.");
             enemy.StateMachine.ChangeState(new FleeState(enemy));
