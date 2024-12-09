@@ -121,6 +121,20 @@ void HandleAttacking()
 }
 ```
 
+```csharp
+private void OnCollisionEnter(Collision collision)
+{
+    if (collision.gameObject.GetComponent<Player>() != null)
+    {
+        Player player = collision.gameObject.GetComponent<Player>();
+        player.TakeDamage(damage);
+
+        Vector3 knockbackDirection = collision.transform.position - transform.position;
+        player.ApplyKnockback(knockbackDirection, knockbackForce);
+     }
+}
+```
+
 #### Transições de Estado
 As transições entre os estados são gerenciadas pela função ChangeState, que regista a mudança de estado e executa as ações correspondentes ao novo estado:
 ```csharp
