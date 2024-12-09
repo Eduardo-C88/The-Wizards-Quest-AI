@@ -350,4 +350,103 @@ public class UseBossSkill1 : Node
 }
 ```
 
-Eu
+### ML-Agents 
+ML-Agents (Machine Learning Agents) é uma ferramenta desenvolvida pela Unity que integra aprendizado por reforço (RL) em jogos ou simulações. Ela permite que agentes controlados por inteligência artificial aprendam comportamentos por meio de interações com o ambiente virtual, simulando situações e recebendo recompensas ou penalidades com base em suas ações. O ML-Agents utiliza frameworks como PyTorch para o treinamento do modelo, enquanto a interface de interação é feita diretamente no Unity.
+
+####Como os ML-Agents aprendem?
+O aprendizado ocorre por meio de Reforço:
+
+-Observações: O agente coleta informações sobre o ambiente.
+-Ações: Com base nas observações, ele decide o que fazer.
+-Recompensas: A ação tomada gera uma recompensa ou penalidade.
+-Treinamento: O modelo ajusta seus parâmetros para maximizar a recompensa acumulada ao longo do tempo.
+-No código fornecido, vemos um exemplo de agente treinado para perseguir um jogador enquanto evita penalizações
+
+##### Observações
+
+O agente coleta informações sobre o ambiente, crucial para a tomada de decisões. Neste exemplo:
+
+-Posição relativa do jogador: O agente sabe a direção e a distância para o jogador.
+-Normalização: Os valores são escalados para ficarem entre 0 e 1, facilitando o aprendizado do modelo.
+```cs
+public override void CollectObservations(VectorSensor sensor)
+    {
+        Vector3 relativePosition = player.position - transform.position;
+        if (relativePosition.magnitude == 0) relativePosition = Vector3.forward;
+        sensor.AddObservation(relativePosition.normalized);
+        sensor.AddObservation(Mathf.Clamp01(relativePosition.magnitude / 50f));
+    }
+```
+
+##### Ações
+
+O agente recebe ações em formato contínuo (valores entre -1 e 1). As ações controlam:
+-Movimento (moveX, moveZ).
+-Rotação.
+O cálculo da movimentação é suavizado para garantir transições realistas:
+```cs
+ public override void OnActionReceived(ActionBuffers actions)
+    {
+        float moveX = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+        float moveZ = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+
+	Vector3 targetDirection = new Vector3(moveX, 0, moveZ);
+        if (targetDirection.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        Vector3 targetVelocity = targetDirection.normalized * moveSpeed;
+        rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * 5f);
+```
+
+##### Recompensas
+
+As recompensas incentivam o agente a se comportar de maneira desejada:
+
+- Recompensas a incentivar proximidade com o Player 
+```cs
+if (distanceToPlayer <= rewardProximityToPlayer)
+    AddReward(0.1f);
+if (distanceToPlayer <= proximityToPlayerRange)
+    AddReward(0.5f);
+```
+
+- Penalização por distanciamento com o Player
+```cs
+if (distanceToPlayer >= penaltyDistanceFromPlayer)
+    AddReward(-0.001f);
+```
+
+- Penalização por proximidade com outros Agents (apenas quando o Player não está no range definido)
+```cs
+Collider[] nearbyEnemies = Physics.OverlapSphere(transform.position, proximityPenaltyRange, enemyLayer);
+            if (nearbyEnemies.Length > 1 && distanceToPlayer > proximityToPlayerRange)
+            {
+                AddReward(-0.6f);
+            }
+```
+
+##### Treinamento 
+
+A duração de cada episódio é limitada para evitar que o treinamento fique muito longo ou irrelevante.
+```cs
+if (episodeTimer >= episodeDuration)
+    EndEpisode();
+```
+Exemplo de ficheiro yaml usado para aprofundar o treinamento dos ML-Agents depois de completar o treino "default"
+```yaml
+behaviors:
+  BasicEnemyAgent:
+    trainer_type: ppo  # PPO is the standard reinforcement learning method
+    hyperparameters:
+      batch_size: 64  # Number of samples per batch
+      buffer_size: 10240  # Total number of experiences in the replay buffer
+      learning_rate: 3.0e-4  # Learning rate to optimize training
+      num_epoch: 3  # Number of epochs for each optimization pass
+    max_steps: 5000000  # Total timesteps to train for
+    keep_checkpoints: 5  # Number of checkpoints to keep during training
+    checkpoint_interval: 100000  # Save agent progress at every 100,000 steps
+    summary_freq: 1000  # Frequency at which summaries/logging are performed
+```
