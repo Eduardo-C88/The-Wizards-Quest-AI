@@ -356,18 +356,18 @@ ML-Agents (Machine Learning Agents) é uma ferramenta desenvolvida pela Unity qu
 #### Como os ML-Agents aprendem?
 O aprendizado ocorre por meio de Reforço:
 
--Observações: O agente coleta informações sobre o ambiente.
--Ações: Com base nas observações, ele decide o que fazer.
--Recompensas: A ação tomada gera uma recompensa ou penalidade.
--Treinamento: O modelo ajusta seus parâmetros para maximizar a recompensa acumulada ao longo do tempo.
+- Observações: O agente coleta informações sobre o ambiente.
+- Ações: Com base nas observações, ele decide o que fazer.
+- Recompensas: A ação tomada gera uma recompensa ou penalidade.
+- Treinamento: O modelo ajusta seus parâmetros para maximizar a recompensa acumulada ao longo do tempo.
 -No código fornecido, vemos um exemplo de agente treinado para perseguir um jogador enquanto evita penalizações
 
 #### Observações
 
 O agente coleta informações sobre o ambiente, crucial para a tomada de decisões. Neste exemplo:
 
--Posição relativa do jogador: O agente sabe a direção e a distância para o jogador.
--Normalização: Os valores são escalados para ficarem entre 0 e 1, facilitando o aprendizado do modelo.
+- Posição relativa do jogador: O agente sabe a direção e a distância para o jogador.
+- Normalização: Os valores são escalados para ficarem entre 0 e 1, facilitando o aprendizado do modelo.
 ```cs
 public override void CollectObservations(VectorSensor sensor)
     {
@@ -381,8 +381,8 @@ public override void CollectObservations(VectorSensor sensor)
 #### Ações
 
 O agente recebe ações em formato contínuo (valores entre -1 e 1). As ações controlam:
--Movimento (moveX, moveZ).
--Rotação.
+- Movimento (moveX, moveZ).
+- Rotação.
 O cálculo da movimentação é suavizado para garantir transições realistas:
 ```cs
  public override void OnActionReceived(ActionBuffers actions)
