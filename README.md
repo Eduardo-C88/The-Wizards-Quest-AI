@@ -403,7 +403,7 @@ O cálculo da movimentação é suavizado para garantir transições realistas:
 
 #### Recompensas
 
-As recompensas incentivam o agente a se comportar de maneira desejada e com tal devem ser ajustados ou alterados dependendo da resposta do Agent ao longo do treino.
+As recompensas incentivam o agente a se comportar de maneira desejada e com tal devem ser ajustados ou alterados dependendo da resposta deste ao longo do treino.
 
 - Recompensas a incentivar proximidade com o Player 
 ```cs
