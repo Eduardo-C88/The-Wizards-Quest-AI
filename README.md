@@ -473,3 +473,7 @@ behaviors:
     checkpoint_interval: 100000  # Save agent progress at every 100,000 steps
     summary_freq: 1000  # Frequency at which summaries/logging are performed
 ```
+##Trabalho de:
++25969 Eduardo Costa
++25981 Filipe Araújo
++25982 Pedro Rodrigues
