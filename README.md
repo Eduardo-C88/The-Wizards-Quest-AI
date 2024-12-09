@@ -350,7 +350,7 @@ public class UseBossSkill1 : Node
 }
 ```
 
-### ML-Agents 
+## ML-Agents 
 ML-Agents (Machine Learning Agents) é uma ferramenta desenvolvida pela Unity que integra aprendizado por reforço (RL) em jogos ou simulações. Ela permite que agentes controlados por inteligência artificial aprendam comportamentos por meio de interações com o ambiente virtual, simulando situações e recebendo recompensas ou penalidades com base em suas ações. O ML-Agents utiliza frameworks como PyTorch para o treinamento do modelo, enquanto a interface de interação é feita diretamente no Unity.
 
 #### Como os ML-Agents aprendem?
@@ -362,7 +362,7 @@ O aprendizado ocorre por meio de Reforço:
 -Treinamento: O modelo ajusta seus parâmetros para maximizar a recompensa acumulada ao longo do tempo.
 -No código fornecido, vemos um exemplo de agente treinado para perseguir um jogador enquanto evita penalizações
 
-##### Observações
+#### Observações
 
 O agente coleta informações sobre o ambiente, crucial para a tomada de decisões. Neste exemplo:
 
@@ -378,7 +378,7 @@ public override void CollectObservations(VectorSensor sensor)
     }
 ```
 
-##### Ações
+#### Ações
 
 O agente recebe ações em formato contínuo (valores entre -1 e 1). As ações controlam:
 -Movimento (moveX, moveZ).
@@ -401,7 +401,7 @@ O cálculo da movimentação é suavizado para garantir transições realistas:
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * 5f);
 ```
 
-##### Recompensas
+#### Recompensas
 
 As recompensas incentivam o agente a se comportar de maneira desejada:
 
@@ -428,7 +428,7 @@ Collider[] nearbyEnemies = Physics.OverlapSphere(transform.position, proximityPe
             }
 ```
 
-##### Treinamento 
+#### Treinamento 
 
 A duração de cada episódio é limitada para evitar que o treinamento fique muito longo ou irrelevante.
 ```cs
