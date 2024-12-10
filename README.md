@@ -39,7 +39,7 @@ A interface apresentará a seguinte informação:
 + Water Beam: Gera um feixe horizontal que causa dano em quem estiver dentro da zona.
 
 ## Inteligência Artificial
-### Máquina de Estados Finitos (FSM) do Boss
+### Máquina de Estados Finitos (FSM) do Boss - Pedro
 Uma Máquina de Estados Finitos (FSM) é uma estrutura computacional usada para modelar comportamentos com base em estados discretos e suas transições. No contexto de jogos, FSMs são amplamente utilizadas para gerir a lógica de personagens, como inimigos ou NPCs, garantindo que eles ajam de maneira previsível e controlada.
 
 No jogo, o comportamento do boss é gerido por uma Máquina de Estados Finitos (FSM). Este sistema alterna entre três estados principais: Patrulha (Patrolling), Perseguição (Chasing) e Ataque (Attacking), com transições dinâmicas baseadas nas ações do jogador.
@@ -202,7 +202,7 @@ No gameplay, esta árvore de comportamento torna o boss mais desafiador ao reagi
 + Se o jogador está dentro de um certo alcance e visível, o boss pode usar uma habilidade direcionada.
 + Se a primeira habilidade estiver em recarga, ele tentará usar uma habilidade alternativa, como um ataque em área.
 
-#### Estrutura da Árvore de Comportamentos
+#### Estrutura da Árvore de Comportamentos - Eduardo
 
 ##### Árvore Resumida
 ```plaintext
@@ -373,7 +373,7 @@ public class UseBossSkill1 : Node
 }
 ```
 
-## ML-Agents para Enemies LVL1
+## ML-Agents para Enemies LVL1 - Filipe
 ML-Agents (Machine Learning Agents) é uma ferramenta desenvolvida pela Unity que integra aprendizado por reforço (RL) em jogos ou simulações. Ela permite que agentes controlados por inteligência artificial aprendam comportamentos por meio de interações com o ambiente virtual, simulando situações e recebendo recompensas ou penalidades com base em suas ações. O ML-Agents utiliza frameworks como PyTorch para o treinamento do modelo, enquanto a interface de interação é feita diretamente no Unity.
 
 #### Como os ML-Agents aprendem?
