@@ -198,6 +198,7 @@ void Update()
 Este projeto implementa uma Árvore de Comportamentos (Behavior Tree) para controlar as decisões de um inimigo do tipo boss em um jogo. A Behavior Tree organiza e prioriza as ações do boss, como atacar com habilidades específicas, avaliar a posição do jogador, verificar linha de visão e respeitar os tempos de recarga das habilidades.
 
 Contexto no Jogo
+
 No gameplay, esta árvore de comportamento torna o boss mais desafiador ao reagir dinamicamente ao posicionamento e ações do jogador. Por exemplo:
 + Se o jogador está dentro de um certo alcance e visível, o boss pode usar uma habilidade direcionada.
 + Se a primeira habilidade estiver em recarga, ele tentará usar uma habilidade alternativa, como um ataque em área.
